@@ -1,7 +1,7 @@
 package com.example.taskapi.service;
 
 import com.example.taskapi.entity.Task;
-import com.example.taskapi.repository.TaskRepository;
+import com.example.taskapi.mapper.TaskMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,34 +10,40 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
-    public TaskServiceImpl(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskServiceImpl(TaskMapper taskMapper) {
+        this.taskMapper = taskMapper;
     }
 
     @Override
     public List<Task> findAll() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return taskMapper.findAll();
     }
 
     @Override
     public Optional<Task> findById(Long id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return taskMapper.findById(id);
     }
 
     @Override
     public Task create(Task task) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        taskMapper.insert(task);
+        return task;
     }
 
     @Override
     public Task update(Long id, Task task) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        task.setId(id);
+        int updated = taskMapper.update(task);
+        if (updated == 0) {
+            throw new IllegalArgumentException("Task not found: " + id);
+        }
+        return task;
     }
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        taskMapper.deleteById(id);
     }
 }
