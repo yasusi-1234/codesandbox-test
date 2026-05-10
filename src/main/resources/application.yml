@@ -7,7 +7,11 @@ spring:
   h2:
     console:
       enabled: true
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  sql:
+    init:
+      mode: always
+
+mybatis:
+  type-aliases-package: com.example.taskapi.entity
+  configuration:
+    map-underscore-to-camel-case: true
